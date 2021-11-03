@@ -40,9 +40,12 @@ export default class ParseQuery {
   json2query (): string {
     let str = ''
     for (let i in this.json) {
-      let oneIs = !str ? '?' : '&';
-      str += `${oneIs}${i}=${this.json[i]}`;
+      if (Object.prototype.hasOwnProperty.call(this.json, i)) {
+        let oneIs = !str ? '?' : '&';
+        str += `${oneIs}${i}=${this.json[i]}`;
+      }
     }
-    return str
+    if (str) return `${this.url}${str}`;
+    return this.url;
   }
 }
